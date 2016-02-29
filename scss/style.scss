@@ -1,10 +1,11 @@
 /******************************************************************
-Site Name:
-Author:
+Site Name: SM-test
+Author: Taras Bilous
 
 Stylesheet: Main Stylesheet
 ******************************************************************/
-
+// STEP 0: Add compass support
+@import "compass";
 // STEP 1: Import reset
 @import "libs/normalize";
 
