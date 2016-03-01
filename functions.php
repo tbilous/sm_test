@@ -53,6 +53,18 @@ require_once( SCAFFOLDING_INCLUDE_PATH . 'base-functions.php' );
 /*********************
  * 2. SCRIPTS & ENQUEUEING
  *********************/
+function my_scripts_method() {
+	// получаем версию jQuery
+	wp_enqueue_script( 'jquery' );
+	$wp_jquery_ver = $GLOBALS['wp_scripts']->registered['jquery']->ver; // для версий WP меньше 3.6 'jquery' меняем на 'jquery-core'
+	$jquery_ver    = $wp_jquery_ver == '' ? '1.11.0' : $wp_jquery_ver;
+
+	wp_deregister_script( 'jquery-core' );
+	wp_register_script( 'jquery-core', '//ajax.googleapis.com/ajax/libs/jquery/' . $jquery_ver . '/jquery.min.js' );
+	wp_enqueue_script( 'jquery' );
+}
+
+add_action( 'wp_enqueue_scripts', 'my_scripts_method', 99 );
 
 function test_scripts_and_styles() {
 	global $wp_styles; // call global $wp_styles variable to add conditional wrapper around ie stylesheet the WordPress way
@@ -88,7 +100,10 @@ function test_scripts_and_styles() {
 	}
 
 	//adding scripts file in the footer
+	wp_enqueue_script( 'my-bootstrap', get_stylesheet_directory_uri() . '/js/bootstrap.min.js', array( 'jquery' ), '', true );
+	wp_enqueue_script( 'readmore', get_stylesheet_directory_uri() . '/js/readmore.min.js', array( 'jquery' ), '', true );
 	wp_enqueue_script( 'test-js', get_stylesheet_directory_uri() . '/js/scripts.js', array( 'jquery' ), '', true );
+
 }
 
 
@@ -190,7 +205,8 @@ function test_custom_headers_callback() {
 
 
 
-	<?php echo get_template_directory_uri() ?>    /includes/backgroundsize.min.htc);*/
+
+	<?php echo get_template_directory_uri() ?>     /includes/backgroundsize.min.htc);*/
 	}</style><?php
 }
 
@@ -568,7 +584,7 @@ function test_excerpt_more( $more ) {
 	global $post;
 
 	// edit here if you like
-	return '...  <a href="' . get_permalink( $post->ID ) . '" title="' . __( 'Read', 'test' ) . get_the_title( $post->ID ) . '">' . __( 'Read more &raquo;', 'test' ) . '</a>';
+	return '...  <a class="test_excerpt_more" href="' . get_permalink( $post->ID ) . '" title="' . __( 'Read', 'test' ) . get_the_title( $post->ID ) . '">' . __( '<span>More</span>', 'test' ) . '</a>';
 }
 
 //This is a modified the_author_posts_link() which just returns the link.
@@ -747,24 +763,25 @@ class MY_Widget_Recent_Posts extends WP_Widget {
 			echo $args['before_title'] . $title . $args['after_title'];
 		} ?>
 
-				<?php while ( $r->have_posts() ) : $r->the_post(); ?>
-					<ul class="widget-recent-list list-inline">
-						<li class="">
-							<?php if ( $show_date ) : ?>
-								<ul class="list-unstyled text-center recent-date">
-									<li class="post-date"><?php echo get_the_date( 'j' ); ?></li>
-									<li class="post-date"><?php echo get_the_date( 'M' ); ?></li>
-								</ul>
-							<?php endif; ?>
-						</li>
-						<li class="recent-text">
-							<a href="<?php the_permalink(); ?>">
-								<?php get_the_title() ? the_title() : the_ID(); ?>
-							</a>
-							<?php the_content( '...' ); ?>
-						</li>
-					</ul>
-				<?php endwhile; ?>
+			<?php while ( $r->have_posts() ) : $r->the_post(); ?>
+			<ul class="widget-recent-list list-inline">
+				<li class="">
+					<?php if ( $show_date ) : ?>
+						<ul class="list-unstyled text-center recent-date">
+							<li class="post-date"><?php echo get_the_date( 'j' ); ?></li>
+							<li class="post-date"><?php echo get_the_date( 'M' ); ?></li>
+						</ul>
+					<?php endif; ?>
+				</li>
+				<li class="recent-text">
+					<a href="<?php the_permalink(); ?>">
+						<?php get_the_title() ? the_title() : the_ID(); ?>
+					</a>
+					<?php the_content( '...' ); ?>
+
+				</li>
+			</ul>
+		<?php endwhile; ?>
 			<?php echo $args['after_widget']; ?>
 			<?php
 			// Reset the global $the_post as this query will have stomped on it

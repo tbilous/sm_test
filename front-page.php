@@ -1,16 +1,16 @@
 <?php get_header(); ?>
-
+<!--<h1>front-page</h1>-->
 			<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
+					<article id="my-post post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
 
 						<header class="article-header">
 
-							<h1 class="entry-title page-title"><?php the_title(); ?></h1>
+							<h4 class="entry-title page-title text-uppercase"><?php the_title(); ?></h4>
 
 						</header>
 
-						<section class="entry-content clearfix">
+						<section class="entry-content collapsed-text">
 							<?php the_content(); ?>
 							<?php wp_link_pages( array(
 								'before'      => '<div class="page-links"><span class="page-links-title">' . __( 'Pages:', 'test' ) . '</span>',

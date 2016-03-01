@@ -266,3 +266,11 @@ jQuery(document).ready(function($) {
 	w.addEventListener( "orientationchange", restoreZoom, false );
 	w.addEventListener( "devicemotion", checkTilt, false );
 })( this );
+
+
+$('.collapsed-text').readmore({
+	collapsedHeight: 180,
+	speed: 600,
+	moreLink: '<a class="collapsed-link" href="#"><span style="background: black">More </span> <span class="fa fa-angle-right"></span></a>',
+	lessLink: '<a class="collapsed-link" href="#">Less <span class="fa fa-angle-left"></span></a>'
+});
