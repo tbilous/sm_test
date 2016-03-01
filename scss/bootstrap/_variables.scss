@@ -1,15 +1,48 @@
-/******************************************************************
-Site Name:
-Author: 
+$bootstrap-sass-asset-helper: false !default;
+//
+// Variables
+// --------------------------------------------------
 
-Stylesheet: Variables
 
-******************************************************************/
-//@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400,700,300);
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+
+$gray-base:              #000 !default;
+$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:              lighten($gray-base, 20%) !default;   // #333
+$gray:                   lighten($gray-base, 33.5%) !default; // #555
+$gray-light:             lighten($gray-base, 46.7%) !default; // #777
+$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
+
+$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
+$brand-success:         #5cb85c !default;
+$brand-info:            #5bc0de !default;
+$brand-warning:         #f0ad4e !default;
+$brand-danger:          #d9534f !default;
+
+
+//== Scaffolding
+//
+//## Settings for some of the most global styles.
+
+//** Background color for `<body>`.
+$body-bg:               #fff !default;
+//** Global text color on `<body>`.
+$text-color:            $gray-dark !default;
+
+//** Global textual link color.
+$link-color:            $brand-primary !default;
+//** Link hover color set via `darken()` function.
+$link-hover-color:      darken($link-color, 15%) !default;
+//** Link hover decoration.
+$link-hover-decoration: underline !default;
+
 
 //== Typography
 //
 //## Font, line-height, and color for body text, headings, and more.
+
 $font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif !default;
 $font-family-serif:       Georgia, "Times New Roman", Times, serif !default;
 //** Default monospace fonts for `<code>`, `<kbd>`, and `<pre>`.
@@ -26,67 +59,6 @@ $font-size-h3:            ceil(($font-size-base * 1.7)) !default; // ~24px
 $font-size-h4:            ceil(($font-size-base * 1.25)) !default; // ~18px
 $font-size-h5:            $font-size-base !default;
 $font-size-h6:            ceil(($font-size-base * 0.85)) !default; // ~12px
-
-$sans: '$font-family-sans-serif', sans-serif;
-$serif: serif;
-$default-font-size: 14px;
-
-$alert-yellow: #ebe16f;
-$alert-red: #fbe3e4;
-$alert-green: #e6efc2;
-$alert-blue: #d5edf8;
-
-
-$gray-base:              #000 !default;
-$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
-$gray-dark:              lighten($gray-base, 20%) !default;   // #333
-$gray:                   lighten($gray-base, 33.5%) !default; // #555
-$gray-light:             lighten($gray-base, 46.7%) !default; // #777
-$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
-
-$brand-primary:         #f2ac04 !default; // #337ab7
-$brand-success:         #5cb85c !default;
-$brand-info:            #5bc0de !default;
-$brand-warning:         #f0ad4e !default;
-$brand-danger:          #d9534f !default;
-
-
-//$link-color: #008CBA;
-//$link-hover-color: #007BA1;
-
-// Grid Stuff
-//$screen-sm-min: 768px;
-//$container-sm: 750px;
-//
-//$screen-md-min: 992px;
-//$container-md: 970px;
-//
-//$screen-lg-min: 1200px;
-//$container-lg: 1170px;
-//
-$grid-columns: 12;
-$grid-gutter-width: 15px;
-
-$plugins-path: '/wp-content/plugins/';
-//== Scaffolding
-//
-//## Settings for some of the most global styles.
-$bootstrap-sass-asset-helper: false !default;
-//** Background color for `<body>`.
-$body-bg:               #fff !default;
-//** Global text color on `<body>`.
-$text-color:            #3c3c3c !default;
-
-//** Global textual link color.
-$link-color:            $text-color !default;
-//** Link hover color set via `darken()` function.
-$link-hover-color:      darken($link-color, 15%) !default;
-//** Link hover decoration.
-$link-hover-decoration: none !default;
-
-
-
-
 
 //** Unit-less `line-height` for use in components like buttons.
 $line-height-base:        1.428571429 !default; // 20/14
@@ -355,9 +327,9 @@ $screen-md-max:              ($screen-lg-min - 1) !default;
 //## Define your custom responsive grid.
 
 //** Number of columns in the grid.
-//$grid-columns:              12 !default;
+$grid-columns:              12 !default;
 //** Padding between columns. Gets divided in half for the left and right.
-//$grid-gutter-width:         30px !default;
+$grid-gutter-width:         30px !default;
 // Navbar collapse
 //** Point at which the navbar becomes uncollapsed.
 $grid-float-breakpoint:     $screen-sm-min !default;
@@ -380,7 +352,6 @@ $container-desktop:            (940px + $grid-gutter-width) !default;
 $container-md:                 $container-desktop !default;
 
 // Large screen / wide desktop
-$container-large-desktop:      (1140px + $grid-gutter-width) !default;
 $container-large-desktop:      (1140px + $grid-gutter-width) !default;
 //** For `$screen-lg-min` and up.
 $container-lg:                 $container-large-desktop !default;

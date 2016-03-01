@@ -7,14 +7,14 @@ Stylesheet: Main Stylesheet
 // STEP 0: Add compass support
 @import "compass";
 // STEP 1: Import reset
-@import "libs/normalize";
-
+//@import "libs/normalize";
 // STEP 2: Import all our resources
 @import "includes/variables";
-@import "includes/typography";
+@import "bootstrap";
+//@import "includes/typography";
 @import "includes/mixins";
 @import "includes/forms";
-@import "includes/offcanvas-nav";
+//@import "includes/offcanvas-nav";
 
 // STEP 3: Import all our libraries
 //@import "includes/gravity-forms"; /* gravity forms styles - uncheck box to NOT output default CSS */
@@ -23,7 +23,7 @@ Stylesheet: Main Stylesheet
 @import "libs/icheck"; /* better radio and checkbox inputs - see http://fronteed.com/iCheck/ for more info; there are several different skins to choose from (a default is currently enabled) */
 
 // STEP 4: Import our grid
-@import "includes/bootstrap-grid";
+//@import "includes/bootstrap-grid";
 
 // STEP 5: Import our responsive stylesheets (where you'll put your styles)
 
@@ -67,7 +67,7 @@ query for retina AND a certain size if you want. Go Nuts.
 @media only screen and (-webkit-min-device-pixel-ratio: 1.5),
 	only screen and (min--moz-device-pixel-ratio: 1.5),
 	only screen and (min-device-pixel-ratio: 1.5) {
-	//@import "includes/retina";
+	@import "includes/retina";
 }
 
 /*
@@ -89,4 +89,4 @@ be set to display none.
 }
 //My cod
 
-@import "projects/global";
+@import "global";
