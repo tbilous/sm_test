@@ -14,31 +14,31 @@
 <!--[if gt IE 8]><!-->
 <html <?php language_attributes(); ?> class="no-js"><!--<![endif]-->
 <head>
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<title><?php wp_title( '' ); ?></title>
-	<meta name="HandheldFriendly" content="True">
-	<meta name="MobileOptimized" content="320">
-	<meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <title><?php wp_title(''); ?></title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-	<?php // icons & favicons (for more: http://www.jonathantneal.com/blog/understand-the-favicon/) ?>
-	<link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/images/apple-icon-touch.png">
-	<link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">
-	<!--[if IE]>
-	<link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico"><![endif]-->
-	<meta name="msapplication-TileColor" content="#f01d4f">
-	<meta name="msapplication-TileImage"
-	      content="<?php echo get_template_directory_uri(); ?>/images/win8-tile-icon.png">
+    <?php // icons & favicons (for more: http://www.jonathantneal.com/blog/understand-the-favicon/) ?>
+    <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/images/apple-icon-touch.png">
+    <link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">
+    <!--[if IE]>
+    <link rel="shortcut icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico"><![endif]-->
+    <meta name="msapplication-TileColor" content="#f01d4f">
+    <meta name="msapplication-TileImage"
+          content="<?php echo get_template_directory_uri(); ?>/images/win8-tile-icon.png">
 
-	<link rel="profile" href="http://gmpg.org/xfn/11">
-	<link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+    <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>">
 
-	<!--[if lt IE 9]>
-	<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
-	<script type="text/javascript"
-	        src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv-printshiv.min.js"></script>
-	<![endif]-->
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.min.js"></script>
+    <script type="text/javascript"
+            src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv-printshiv.min.js"></script>
+    <![endif]-->
 
-	<?php wp_head(); ?>
+    <?php wp_head(); ?>
 
 </head>
 
@@ -46,54 +46,55 @@
 
 <div id="container" class="container-fluid dummy-container">
 
-	<header id="masthead" class="header" role="banner">
-		<div class="row">
-			<div class="col-xs-4">
-				<?php // Interior Header Image ?>
-				<ul class="list-inline">
-					<li>
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" id="banner" style="display: block">
-							<div class="spacer"></div>
-						</a>
-					</li>
+    <header id="masthead" class="header" role="banner">
+        <div class="row">
+            <div class="col-md-3">
+                <?php // Interior Header Image ?>
+                <ul class="list-inline logo-list">
+                    <li>
+                        <a href="<?php echo esc_url(home_url('/')); ?>" id="banner" style="display: block">
+                            <div class="spacer"></div>
+                        </a>
+                    </li>
 
-					<li>
-					<span id="logo" class="h1"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"
-					                              title="<?php bloginfo( 'name' ); ?>"><?php bloginfo( 'name' ); ?></a></span>
+                    <li>
+					<span id="logo" class="h1"><a href="<?php echo esc_url(home_url('/')); ?>" rel="home"
+                                                  title="<?php bloginfo('name'); ?>"><?php bloginfo('name'); ?></a></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-9">
+                <div class="header-block">
+                    <?php dynamic_sidebar('header-sidebar'); ?>
+                    <p class="sub-header"><?php bloginfo("description"); ?></p>
+                </div>
+            </div>
+        </div>
+    </header>
 
-						<?php // if you'd like to use the site description you can un-comment it below
-						// echo '<p class="site-description">'. bloginfo( "description" ) .'</p>' ?>
-					</li>
-				</ul>
-				<?php // to use a image just replace the bloginfo('name') with <img> ?>
-			</div>
-			<div class="col-xs-8"
-		</div>
-	</header>
+    <a class="skip-link screen-reader-text" href="#content"><?php _e('Skip to content', 'test'); ?></a>
 
-	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'test' ); ?></a>
-
-	<nav id="main-navigation" class="clearfix" role="navigation">
-		<div class="container">
-			<?php test_main_nav(); ?>
-		</div>
-	</nav>
+    <nav id="main-navigation" class="clearfix" role="navigation">
+        <div class="container">
+            <?php test_main_nav(); ?>
+        </div>
+    </nav>
 
 
-	<div id="content">
+    <div id="content">
 
-		<div id="inner-content" class="row">
+        <div id="inner-content" class="row">
 
-			<?php // Test for active sidebars to set the main content width
-			if ( is_active_sidebar( 'left-sidebar' ) && is_active_sidebar( 'right-sidebar' ) ) { //both sidebars
-				$main_class = 'col-md-4 col-md-push-4';
-			} elseif ( is_active_sidebar( 'left-sidebar' ) && ! is_active_sidebar( 'right-sidebar' ) ) { //left sidebar
-				$main_class = 'col-md-9 col-md-push-3';
-			} elseif ( ! is_active_sidebar( 'left-sidebar' ) && is_active_sidebar( 'right-sidebar' ) ) { //right sidebar
-				$main_class = 'col-md-9';
-			} else { //no sidebar
-				$main_class = 'col-md-12';
-			}
-			?>
+            <?php // Test for active sidebars to set the main content width
+            if (is_active_sidebar('left-sidebar') && is_active_sidebar('right-sidebar')) { //both sidebars
+                $main_class = 'col-md-4 col-md-push-4';
+            } elseif (is_active_sidebar('left-sidebar') && !is_active_sidebar('right-sidebar')) { //left sidebar
+                $main_class = 'col-md-9 col-md-push-3';
+            } elseif (!is_active_sidebar('left-sidebar') && is_active_sidebar('right-sidebar')) { //right sidebar
+                $main_class = 'col-md-9';
+            } else { //no sidebar
+                $main_class = 'col-md-12';
+            }
+            ?>
 
-			<div id="main" class="<?php echo $main_class; ?> " role="main">
+            <div id="main" class="<?php echo $main_class; ?> " role="main">

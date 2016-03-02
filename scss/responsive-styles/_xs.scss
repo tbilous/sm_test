@@ -64,6 +64,9 @@ HEADER SYTLES
   background-repeat: no-repeat;
   background-size: contain;
   max-width: 73px;
+  display: block;
+  height: 5.5rem;
+  width: 7.2rem;
   .spacer {
     padding-top: 77%; // change this value based on the aspect ratio of your header image
   }
