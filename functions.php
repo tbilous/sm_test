@@ -173,7 +173,7 @@ function test_theme_support()
 
     // Feature Currently Disabled
     // adding post format support
-    add_theme_support('post-formats',
+/*    add_theme_support('post-formats',
         array(
             'aside',            // title less blurb
             'gallery',            // gallery of images
@@ -185,7 +185,7 @@ function test_theme_support()
             'audio',            // audio
             'chat'                // chat transcript
         )
-    );
+    );*/
 
 
     // wp menus
@@ -220,7 +220,6 @@ function test_custom_headers_callback()
     <style type="text/css">#banner {
         background-image: url(<?php header_image(); ?>);
         /*-ms-behavior: url(
-
 
 
 
@@ -285,18 +284,15 @@ function test_main_nav()
 {
     // display the wp3 menu if available
     wp_nav_menu(array(
-        'container' => '',                             // remove nav container
-        'container_class' => '',                         // class of container (should you choose to use it)
         'menu' => '',                                     // nav name
-        'menu_class' => 'menu main-menu wrap clearfix',  // adding custom nav class
         'theme_location' => 'main-nav',                     // where it's located in the theme
-        'before' => '',                                     // before the menu
-        'after' => '',                                     // after the menu
-        'link_before' => '',                             // before each link
-        'link_after' => '',                                 // after each link
         'depth' => 0,                                     // limit the depth of the nav
         'fallback_cb' => '',     // fallback function
-        'items_wrap' => '<a href="#" class="menu-button" title="Click to open menu"><i class="fa fa-bars"></i> Menu</a><ul id="%1$s" class="%2$s">%3$s</ul>',
+        'theme-location' => 'primary',
+        'container' => 'div',
+        'container_class' => 'navbar-collapse collapse',
+        'container_id'    => 'navbar',
+        'menu_class' => 'nav navbar-nav',
         'walker' => new test_walker_nav_menu
     ));
 } /* end scaffolding main nav */
@@ -308,7 +304,7 @@ function test_footer_nav()
         'container' => '',
         'container_class' => '',
         'menu' => '',
-        'menu_class' => 'menu footer-menu clearfix',
+        'menu_class' => 'menu footer-menu',
         'theme_location' => 'footer-nav',
         'before' => '',
         'after' => '',
@@ -651,40 +647,6 @@ function test_get_the_author_posts_link()
     return $link;
 }
 
-/**
- * Add custom taxonomies
- *
- * Additional custom taxonomies can be defined here
- * http://codex.wordpress.org/Function_Reference/register_taxonomy
- */
-function add_custom_taxonomies()
-{
-    // Add new "Garden" taxonomy to Posts
-    register_taxonomy('Garden', 'post', array(
-        'hierarchical' => true,
-        'labels' => array(
-            'name' => _x('Garden', 'taxonomy general name'),
-            'singular_name' => _x('Garden', 'taxonomy singular name'),
-            'search_items' => __('Search Garden'),
-            'all_items' => __('All Gardens'),
-            'parent_item' => __('Parent Garden'),
-            'parent_item_colon' => __('Parent Garden:'),
-            'edit_item' => __('Edit Garden'),
-            'update_item' => __('Update Garden'),
-            'add_new_item' => __('Add New Garden'),
-            'new_item_name' => __('New Garden Name'),
-            'menu_name' => __('Garden'),
-        ),
-        // Control the slugs used for this taxonomy
-        'rewrite' => array(
-            'slug' => 'Garden', // This controls the base slug that will display before each term
-            'with_front' => false, // Don't display the category base before "/garden/"
-            'hierarchical' => true // This will allow URL's like "/garden/home/backyard/"
-        ),
-    ));
-}
-
-add_action('init', 'add_custom_taxonomies', 0);
 
 function true_remove_default_widget()
 {
@@ -796,6 +758,7 @@ class wpb_widget extends WP_Widget
         $text = apply_filters('widget_text', $widget_text, $instance, $this);
 
         echo $args['before_widget'];
+
         if (!empty($title)) {
             echo $args['before_title'] . $title . $args['after_title'];
         } ?>
@@ -998,3 +961,13 @@ function content($limit)
     $content = str_replace(']]>', ']]&gt;', $content);
     return $content;
 }
+add_theme_support( 'post-thumbnails' );
+
+add_action( 'after_setup_theme', 'test_custom_thumbnail_size' );
+function test_custom_thumbnail_size(){
+    add_image_size( 'thumb-small', 200, 200, true ); // Hard crop to exact dimensions (crops sides or top and bottom)
+    add_image_size( 'thumb-medium', 520, 9999 ); // Crop to 520px width, unlimited height
+    add_image_size( 'thumb-large', 720, 340 ); // Soft proprtional crop to max 720px width, max 340px height
+}
+//Example
+//<?php if ( has_post_thumbnail() ) { the_post_thumbnail( 'thumb-small' ); } ?>

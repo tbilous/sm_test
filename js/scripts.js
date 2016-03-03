@@ -269,8 +269,8 @@ jQuery(document).ready(function($) {
 
 
 $('.collapsed-text').readmore({
-	collapsedHeight: 180,
+	collapsedHeight: 200,
 	speed: 600,
-	moreLink: '<a class="collapsed-link" href="#"><span class="btn btn-clear">More </span> <span class="btn btn-clear  fa fa-angle-right"></span></a>',
-	lessLink: '<a class="collapsed-link" href="#">Less <span class="btn fa fa-angle-left"></span></a>'
+	moreLink: '<a class="collapsed-link" href="#"><span class="btn btn-clear">More</span> <span class="btn btn-clear  fa fa-angle-right"></span></a>',
+	lessLink: '<a class="collapsed-link" href="#"><span class="btn btn-clear">Less</span><span class="btn btn-clear fa fa-angle-left"></span></a>'
 });

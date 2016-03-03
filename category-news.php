@@ -6,11 +6,10 @@
  */
 
 get_header(); ?>
-
 		<?php if ( have_posts() ) : ?>
-<h1>archive php</h1>
+	<h1>category products</h1>
 			<header class="page-header">
-				<h1 class="archive-title standart">
+				<h4 class="archive-title products">
 					<?php
 						if ( is_category() ) :
 							single_cat_title();
@@ -62,34 +61,22 @@ get_header(); ?>
 
 						endif;
 					?>
-				</h1>
-				<?php
-					// Show an optional term description.
-					$term_description = term_description();
-					if ( ! empty( $term_description ) ) :
-						printf( '<div class="taxonomy-description">%s</div>', $term_description );
-					endif;
-				?>
+				</h4>
 			</header><!-- .page-header -->
 
 			<?php while (have_posts()) : the_post(); ?>
 
-					<article id="post-<?php the_ID(); ?>" <?php post_class('clearfix'); ?> role="article">
+					<article id="post-<?php the_ID(); ?>" <?php post_class(''); ?> role="article">
 
 						<header class="article-header">
 
-							<h3 class="entry-title h2"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h3>
-
-							<?php
-							/* Hidden by default
-							<?php printf(__('Posted <time class="updated" datetime="%1$s" pubdate>%2$s</time> by <span class="author">%3$s</span> <span class="amp">&</span> filed under %4$s.', 'test'), get_the_time('Y-m-j'), get_the_time(get_option('date_format')), test_get_the_author_posts_link(), get_the_category_list(', ')); ?></p>
-							*/ ?>
+							<h4 class="entry-title"><a href="<?php the_permalink() ?>" rel="bookmark" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a></h4>
 
 						</header> <!-- end article header -->
 
 						<section class="entry-content clearfix">
 
-							<?php the_post_thumbnail( 'test-thumb-300' ); ?>
+							<?php the_post_thumbnail( 'img img-responsive' ); ?>
 
 							<?php the_excerpt(); ?>
 
