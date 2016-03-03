@@ -173,7 +173,7 @@ function test_theme_support()
 
     // Feature Currently Disabled
     // adding post format support
-/*    add_theme_support('post-formats',
+    add_theme_support('post-formats',
         array(
             'aside',            // title less blurb
             'gallery',            // gallery of images
@@ -185,7 +185,7 @@ function test_theme_support()
             'audio',            // audio
             'chat'                // chat transcript
         )
-    );*/
+    );
 
 
     // wp menus
@@ -227,7 +227,8 @@ function test_custom_headers_callback()
 
 
 
-    <?php echo get_template_directory_uri() ?>         /includes/backgroundsize.min.htc);*/
+
+    <?php echo get_template_directory_uri() ?>          /includes/backgroundsize.min.htc);*/
     }</style><?php
 }
 
@@ -291,7 +292,7 @@ function test_main_nav()
         'theme-location' => 'primary',
         'container' => 'div',
         'container_class' => 'navbar-collapse collapse',
-        'container_id'    => 'navbar',
+        'container_id' => 'navbar',
         'menu_class' => 'nav navbar-nav',
         'walker' => new test_walker_nav_menu
     ));
@@ -482,8 +483,8 @@ function test_related_posts($tag_arr)
 // Comment Layout
 function test_comments($comment, $args, $depth)
 {
-    $GLOBALS['comment'] = $comment; ?>
-    <li <?php comment_class(); ?>>
+$GLOBALS['comment'] = $comment; ?>
+<li <?php comment_class(); ?>>
     <article id="comment-<?php comment_ID(); ?>" class="clearfix">
         <header class="comment-author vcard">
             <?php
@@ -522,143 +523,143 @@ function test_comments($comment, $args, $depth)
     </article>
     <!-- </li> is added by WordPress automatically -->
     <?php
-} // don't remove this bracket!
+    } // don't remove this bracket!
 
 
-/*********************
- * 11. SEARCH FUNCTIONS
- *********************/
+    /*********************
+     * 11. SEARCH FUNCTIONS
+     *********************/
 
-// Search Form
-function test_wpsearch($form)
-{
-    $form = '<form role="search" method="get" id="searchform" action="' . home_url('/') . '" >
+    // Search Form
+    function test_wpsearch($form)
+    {
+        $form = '<form role="search" method="get" id="searchform" action="' . home_url('/') . '" >
 	<label class="screen-reader-text" for="s">' . __('Search for:', 'test') . '</label>
 	<input type="text" value="' . get_search_query() . '" name="s" id="s" placeholder="' . esc_attr__('Search the Site...', 'test') . '" />
 	<input type="submit" id="searchsubmit" value="' . esc_attr__('Search') . '" />
 	</form>';
 
-    return $form;
-} // don't remove this bracket!
+        return $form;
+    } // don't remove this bracket!
 
-/*********************
- * 12. ADD FIRST AND LAST CLASSES TO MENU & SIDEBAR
- *********************/
+    /*********************
+     * 12. ADD FIRST AND LAST CLASSES TO MENU & SIDEBAR
+     *********************/
 
-function test_add_first_and_last($output)
-{
-    $output = preg_replace('/class="menu-item/', 'class="first-item menu-item', $output, 1);
-    $last_pos = strripos($output, 'class="menu-item');
-    if ($last_pos !== false) {
-        $output = substr_replace($output, 'class="last-item menu-item', $last_pos, 16 /* 16 = hardcoded strlen('class="menu-item') */);
+    function test_add_first_and_last($output)
+    {
+        $output = preg_replace('/class="menu-item/', 'class="first-item menu-item', $output, 1);
+        $last_pos = strripos($output, 'class="menu-item');
+        if ($last_pos !== false) {
+            $output = substr_replace($output, 'class="last-item menu-item', $last_pos, 16 /* 16 = hardcoded strlen('class="menu-item') */);
+        }
+
+        return $output;
     }
 
-    return $output;
-}
+    add_filter('wp_nav_menu', 'test_add_first_and_last');
 
-add_filter('wp_nav_menu', 'test_add_first_and_last');
+    // Add "first" and "last" CSS classes to dynamic sidebar widgets. Also adds numeric index class for each widget (widget-1, widget-2, etc.)
+    function test_widget_first_last_classes($params)
+    {
 
-// Add "first" and "last" CSS classes to dynamic sidebar widgets. Also adds numeric index class for each widget (widget-1, widget-2, etc.)
-function test_widget_first_last_classes($params)
-{
+        global $my_widget_num; // Global a counter array
+        $this_id = $params[0]['id']; // Get the id for the current sidebar we're processing
+        $arr_registered_widgets = wp_get_sidebars_widgets(); // Get an array of ALL registered widgets
 
-    global $my_widget_num; // Global a counter array
-    $this_id = $params[0]['id']; // Get the id for the current sidebar we're processing
-    $arr_registered_widgets = wp_get_sidebars_widgets(); // Get an array of ALL registered widgets
+        if (!$my_widget_num) {// If the counter array doesn't exist, create it
+            $my_widget_num = array();
+        }
 
-    if (!$my_widget_num) {// If the counter array doesn't exist, create it
-        $my_widget_num = array();
+        if (!isset($arr_registered_widgets[$this_id]) || !is_array($arr_registered_widgets[$this_id])) { // Check if the current sidebar has no widgets
+            return $params; // No widgets in this sidebar... bail early.
+        }
+
+        if (isset($my_widget_num[$this_id])) { // See if the counter array has an entry for this sidebar
+            $my_widget_num[$this_id]++;
+        } else { // If not, create it starting with 1
+            $my_widget_num[$this_id] = 1;
+        }
+
+        $class = 'class="widget-' . $my_widget_num[$this_id] . ' '; // Add a widget number class for additional styling options
+
+        if ($my_widget_num[$this_id] == 1) { // If this is the first widget
+            $class .= 'first-widget ';
+        } elseif ($my_widget_num[$this_id] == count($arr_registered_widgets[$this_id])) { // If this is the last widget
+            $class .= 'last-widget ';
+        }
+
+        $params[0]['before_widget'] = str_replace('class="', $class, $params[0]['before_widget']); // Insert our new classes into "before widget"
+
+        return $params;
+
     }
 
-    if (!isset($arr_registered_widgets[$this_id]) || !is_array($arr_registered_widgets[$this_id])) { // Check if the current sidebar has no widgets
-        return $params; // No widgets in this sidebar... bail early.
+    add_filter('dynamic_sidebar_params', 'test_widget_first_last_classes');
+
+
+    /*********************
+     * 13. ADD FIRST AND LAST CLASSES TO POSTS
+     *********************/
+
+    function test_post_classes($classes)
+    {
+        global $wp_query;
+        if ($wp_query->current_post == 0) {
+            $classes[] = 'first-post';
+        } elseif (($wp_query->current_post + 1) == $wp_query->post_count) {
+            $classes[] = 'last-post';
+        }
+
+        return $classes;
     }
 
-    if (isset($my_widget_num[$this_id])) { // See if the counter array has an entry for this sidebar
-        $my_widget_num[$this_id]++;
-    } else { // If not, create it starting with 1
-        $my_widget_num[$this_id] = 1;
+    add_filter('post_class', 'test_post_classes');
+
+
+    /*********************
+     * 14. CUSTOM FUNCTIONS
+     *********************/
+
+    // This removes the annoying […] to a Read More link
+    function test_excerpt_more($more)
+    {
+        global $post;
+
+        // edit here if you like
+        return '...  <a class="test_excerpt_more" href="' . get_permalink($post->ID) . '" title="' . __('Read', 'test') . get_the_title($post->ID) . '">' . __('<span>More</span>', 'test') . '</a>';
     }
 
-    $class = 'class="widget-' . $my_widget_num[$this_id] . ' '; // Add a widget number class for additional styling options
+    //This is a modified the_author_posts_link() which just returns the link.
+    //This is necessary to allow usage of the usual l10n process with printf().
+    function test_get_the_author_posts_link()
+    {
+        global $authordata;
+        if (!is_object($authordata)) {
+            return false;
+        }
+        $link = sprintf(
+            '<a href="%1$s" title="%2$s" rel="author">%3$s</a>',
+            get_author_posts_url($authordata->ID, $authordata->user_nicename),
+            esc_attr(sprintf(__('Posts by %s'), get_the_author())), // No further l10n needed, core will take care of this one
+            get_the_author()
+        );
 
-    if ($my_widget_num[$this_id] == 1) { // If this is the first widget
-        $class .= 'first-widget ';
-    } elseif ($my_widget_num[$this_id] == count($arr_registered_widgets[$this_id])) { // If this is the last widget
-        $class .= 'last-widget ';
+        return $link;
     }
 
-    $params[0]['before_widget'] = str_replace('class="', $class, $params[0]['before_widget']); // Insert our new classes into "before widget"
 
-    return $params;
-
-}
-
-add_filter('dynamic_sidebar_params', 'test_widget_first_last_classes');
-
-
-/*********************
- * 13. ADD FIRST AND LAST CLASSES TO POSTS
- *********************/
-
-function test_post_classes($classes)
-{
-    global $wp_query;
-    if ($wp_query->current_post == 0) {
-        $classes[] = 'first-post';
-    } elseif (($wp_query->current_post + 1) == $wp_query->post_count) {
-        $classes[] = 'last-post';
+    function true_remove_default_widget()
+    {
+        unregister_widget('WP_Widget_Text'); // Текст
+        unregister_widget('WP_Widget_Recent_Posts'); // Текст
     }
 
-    return $classes;
-}
-
-add_filter('post_class', 'test_post_classes');
+    add_action('widgets_init', 'true_remove_default_widget', 20);
 
 
-/*********************
- * 14. CUSTOM FUNCTIONS
- *********************/
-
-// This removes the annoying […] to a Read More link
-function test_excerpt_more($more)
-{
-    global $post;
-
-    // edit here if you like
-    return '...  <a class="test_excerpt_more" href="' . get_permalink($post->ID) . '" title="' . __('Read', 'test') . get_the_title($post->ID) . '">' . __('<span>More</span>', 'test') . '</a>';
-}
-
-//This is a modified the_author_posts_link() which just returns the link.
-//This is necessary to allow usage of the usual l10n process with printf().
-function test_get_the_author_posts_link()
-{
-    global $authordata;
-    if (!is_object($authordata)) {
-        return false;
-    }
-    $link = sprintf(
-        '<a href="%1$s" title="%2$s" rel="author">%3$s</a>',
-        get_author_posts_url($authordata->ID, $authordata->user_nicename),
-        esc_attr(sprintf(__('Posts by %s'), get_the_author())), // No further l10n needed, core will take care of this one
-        get_the_author()
-    );
-
-    return $link;
-}
-
-
-function true_remove_default_widget()
-{
-    unregister_widget('WP_Widget_Text'); // Текст
-    unregister_widget('WP_Widget_Recent_Posts'); // Текст
-}
-
-add_action('widgets_init', 'true_remove_default_widget', 20);
-
-
-class MY_Widget_Text extends WP_Widget
-{
+    class MY_Widget_Text extends WP_Widget
+    {
 
     public function __construct()
     {
@@ -704,27 +705,27 @@ class MY_Widget_Text extends WP_Widget
 
     public function form($instance)
     {
-        $instance = wp_parse_args((array)$instance, array('title' => '', 'text' => ''));
-        $filter = isset($instance['filter']) ? $instance['filter'] : 0;
-        $title = sanitize_text_field($instance['title']);
-        ?>
-        <li><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
-            <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>"
-                   name="<?php echo $this->get_field_name('title'); ?>" type="text"
-                   value="<?php echo esc_attr($title); ?>"/></li>
+    $instance = wp_parse_args((array)$instance, array('title' => '', 'text' => ''));
+    $filter = isset($instance['filter']) ? $instance['filter'] : 0;
+    $title = sanitize_text_field($instance['title']);
+    ?>
+    <li><label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
+        <input class="widefat" id="<?php echo $this->get_field_id('title'); ?>"
+               name="<?php echo $this->get_field_name('title'); ?>" type="text"
+               value="<?php echo esc_attr($title); ?>"/></li>
 
-        <li><label for="<?php echo $this->get_field_id('text'); ?>"><?php _e('Content:'); ?></label>
+    <li><label for="<?php echo $this->get_field_id('text'); ?>"><?php _e('Content:'); ?></label>
 			<textarea class="widefat" rows="16" cols="20" id="<?php echo $this->get_field_id('text'); ?>"
                       name="<?php echo $this->get_field_name('text'); ?>"><?php echo esc_textarea($instance['text']); ?></textarea>
-        </li>
+    </li>
 
-        <li><input id="<?php echo $this->get_field_id('filter'); ?>"
-                   name="<?php echo $this->get_field_name('filter'); ?>"
-                   type="checkbox"<?php checked($filter); ?> />&nbsp;<label
-                for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs'); ?></label>
-        </li>
-        <?php
-    }
+    <li><input id="<?php echo $this->get_field_id('filter'); ?>"
+               name="<?php echo $this->get_field_name('filter'); ?>"
+               type="checkbox"<?php checked($filter); ?> />&nbsp;<label
+            for="<?php echo $this->get_field_id('filter'); ?>"><?php _e('Automatically add paragraphs'); ?></label>
+    </li>
+<?php
+}
 }
 
 // Creating the widget
@@ -946,6 +947,18 @@ function excerpt($limit)
     $excerpt = preg_replace('`\[[^\]]*\]`', '', $excerpt);
     return $excerpt;
 }
+function excerpt_black_btn($limit)
+{
+    $excerpt = explode(' ', get_the_excerpt(), $limit);
+    if (count($excerpt) >= $limit) {
+        array_pop($excerpt);
+        $excerpt = implode(" ", $excerpt) . "<a class='collapsed-link link-more collapsed-link__gallery' href=" . get_the_permalink() . "> <span class=\"btn btn-clear\">More</span> <span class=\"btn btn-clear  fa fa-angle-right\"></span></a>";
+    } else {
+        $excerpt = implode(" ", $excerpt);
+    }
+    $excerpt = preg_replace('`\[[^\]]*\]`', '', $excerpt);
+    return $excerpt;
+}
 
 function content($limit)
 {
@@ -961,13 +974,19 @@ function content($limit)
     $content = str_replace(']]>', ']]&gt;', $content);
     return $content;
 }
-add_theme_support( 'post-thumbnails' );
 
-add_action( 'after_setup_theme', 'test_custom_thumbnail_size' );
-function test_custom_thumbnail_size(){
-    add_image_size( 'thumb-small', 200, 200, true ); // Hard crop to exact dimensions (crops sides or top and bottom)
-    add_image_size( 'thumb-medium', 520, 9999 ); // Crop to 520px width, unlimited height
-    add_image_size( 'thumb-large', 720, 340 ); // Soft proprtional crop to max 720px width, max 340px height
+
+add_theme_support('post-thumbnails');
+
+add_action('after_setup_theme', 'test_custom_thumbnail_size');
+function test_custom_thumbnail_size()
+{
+    add_image_size('thumb-small', 200, 200, true); // Hard crop to exact dimensions (crops sides or top and bottom)
+    add_image_size('thumb-medium', 520, 9999); // Crop to 520px width, unlimited height
+    add_image_size('thumb-large', 720, 340); // Soft proprtional crop to max 720px width, max 340px height
 }
+
 //Example
-//<?php if ( has_post_thumbnail() ) { the_post_thumbnail( 'thumb-small' ); } ?>
+//if ( has_post_thumbnail() ) { the_post_thumbnail( 'thumb-small' ); }
+
+

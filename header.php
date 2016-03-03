@@ -89,16 +89,19 @@
 
     </nav>
     <div class="row">
+        <div class="col-xs-12">
+            <h5 class="featured-products-heading text-uppercase semi-bold">featured products</h5>
+        </div>
         <div class="col-sm-6">
-
             <?php
+            // The Carousel gets all pages from tax CATEGORY: PRODUCTS & TAG: GALLERY
             $count = 0;
             $header_thumbs = get_posts('category_name=products&tag=gallery');
             if ($header_thumbs) :
                 ?>
                 <div class="carousel-border">
                     <div id="leftCarousel" class="carousel slide carousel-top__left" data-ride="carousel"
-                         data-interval="false">
+                         data-interval=6000>
                         <div class="carousel-inner" role="listbox">
                             <?php
                             foreach ($header_thumbs as $header_thumb) {
@@ -115,13 +118,6 @@
                                     <div class="carousel-content" style="position: absolute">
                                         <a class="semi-bold" href="<?php echo get_the_permalink($id) ?>">
                                             <?php echo get_the_title($id) ?>
-
-                                            <?php $posttags = get_the_tags($id);
-                                            if ($posttags) {
-                                                foreach ($posttags as $tag) {
-                                                    echo $tag->name . ' ';
-                                                }
-                                            } ?>
                                         </a>
                                     </div>
                                 </div>
@@ -138,54 +134,79 @@
             ?>
         </div>
         <div class="col-sm-6">
-            <div id="rightCarousel" class="carousel slide carousel-top__right data-ride=" carousel
-            ">
-            <div class="carousel-inner" role="listbox">
-                <?php
-                $count = 0;
-                query_posts('category_name=news');
-                if (have_posts()) : while (have_posts()) : the_post();
-                    $class = '';
-                    $count++;
-                    if ($count == 1) $class .= 'active'; else $class .= '';
-                    $full = wp_get_attachment_image_src(get_post_thumbnail_id(get_the_ID()), 'full'); ?>
-                    <div class="embed-responsive embed-responsive-16by9 item <?php echo $class; ?>">
-                        <div class="embed-responsive-item"
-                             style="background-image: url('<?php echo $full[0] ?>'); background-size: cover;
-                                 "></div>
-                        <!--                                <h1>--><?php //echo get_the_title() ?><!--</h1>-->
+            <?php
+            // Carousel takes last post from CATEGORY: NEWS & TAG: FEATURED, need Gallery in post and custom field:
+            // second_heading
+            global $post;
+            $args = array('posts_per_page' => -1, 'category_name' => 'news', 'tag' => 'featured');
+            $myposts = get_posts($args);
+            foreach ($myposts as $post) {
+                setup_postdata($post);
+                $id = $post->ID;
+                $args = array(
+                    'numberposts' => -1,
+                    'orderby' => 'menu_order',
+                    'order' => 'ASC',
+                    'post_mime_type' => 'image',
+                    'post_parent' => $id,
+                    'post_status' => null,
+                    'post_type' => 'attachment'
+                );
+                $images = get_children($args);
+                if ($images) { ?>
+                    <div id="rightCarousel" class="carousel-fade carousel slide carousel-top__right"
+                         data-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <?php
+                            $count = 0;
+                            foreach ($images as $image) {
+                                $class = '';
+                                $count++;
+                                if ($count == 1) $class .= 'active'; else $class .= '';
+                                ?>
+                                <div class="embed-responsive embed-responsive__carousel item <?php echo $class; ?>">
+                                    <div class="embed-responsive-item"
+                                         style="background-image: url('<?php echo $image->guid; ?>'); background-size: cover;
+                                             "></div>
+                                </div>
+                            <?php } ?>
+                            <div class="carousel-description-img">
+                                <?php echo get_post_meta($id, 'second_heading', true); ?>
+                            </div>
+                            <div class="carousel-description-post" style="">
+                                <?php echo get_the_title(); ?>
+                            </div>
+
+                        </div>
                     </div>
-                    <?php
-                endwhile;endif;
-                wp_reset_query();
+                <?php }
                 ?>
-            </div>
-            <a class="left carousel-control" href="#rightCarousel" role="button" data-slide="prev">
-                <span aria-hidden="true"> < </span>
-                <span class="sr-only">Previous</span>
-            </a>
-            <a class="right carousel-control" href="#rightCarousel" role="button" data-slide="next">
-                <span aria-hidden="true"> > </span>
-                <span class="sr-only">Next</span>
-            </a>
+                <p class="carousel-text-entry semi-bold">
+                    <?php echo excerpt_black_btn(45); ?>
+                </p>
+                <?php
+            }
+            wp_reset_postdata();
+            ?>
         </div>
+
     </div>
-</div>
+    <hr>
 
-<div id="content">
+    <div id="content">
 
-    <div id="inner-content" class="row">
+        <div id="inner-content" class="row">
 
-        <?php // Test for active sidebars to set the main content width
-        if (is_active_sidebar('left-sidebar') && is_active_sidebar('right-sidebar')) { //both sidebars
-            $main_class = 'col-md-4 col-md-push-4';
-        } elseif (is_active_sidebar('left-sidebar') && !is_active_sidebar('right-sidebar')) { //left sidebar
-            $main_class = 'col-md-9 col-md-push-3';
-        } elseif (!is_active_sidebar('left-sidebar') && is_active_sidebar('right-sidebar')) { //right sidebar
-            $main_class = 'col-md-9';
-        } else { //no sidebar
-            $main_class = 'col-md-12';
-        }
-        ?>
+            <?php // For active sidebars to set the main content width
+            if (is_active_sidebar('left-sidebar') && is_active_sidebar('right-sidebar')) { //both sidebars
+                $main_class = 'col-md-4 col-md-push-4';
+            } elseif (is_active_sidebar('left-sidebar') && !is_active_sidebar('right-sidebar')) { //left sidebar
+                $main_class = 'col-md-9 col-md-push-3';
+            } elseif (!is_active_sidebar('left-sidebar') && is_active_sidebar('right-sidebar')) { //right sidebar
+                $main_class = 'col-md-9';
+            } else { //no sidebar
+                $main_class = 'col-md-12';
+            }
+            ?>
 
-        <div id="main" class="<?php echo $main_class; ?> " role="main">
+            <div id="main" class="<?php echo $main_class; ?> " role="main">

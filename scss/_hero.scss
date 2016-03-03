@@ -1,3 +1,8 @@
+//Block Hero Featured products
+
+.featured-products-heading {
+  color: #555656;
+}
 .carousel-top {
   &__left {
     border: 1px solid #d4d4d4;
@@ -41,7 +46,93 @@
     }
   }
 }
+
 .carousel-border {
   padding: 1px;
   border: 1px solid #b0b0b0;
+  margin-bottom: 1em;
 }
+
+//Right carousel
+.embed-responsive {
+  &__carousel {
+    padding-bottom: 44%;
+  }
+}
+
+.carousel-fade {
+  .carousel-inner {
+    .item {
+      transition-property: opacity;
+    }
+
+    .item,
+    .active.left,
+    .active.right {
+      opacity: 0;
+    }
+
+    .active,
+    .next.left,
+    .prev.right {
+      opacity: 1;
+    }
+
+    .next,
+    .prev,
+    .active.left,
+    .active.right {
+      left: 0;
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  .carousel-control {
+    z-index: 2;
+  }
+}
+
+.carousel-description {
+  &-img {
+    z-index: 2;
+    font-family: 'MyriadProRegular', sans-serif;
+    font-size: 1.7em;
+    font-weight: 300;
+    top: 35%;
+  }
+  &-post {
+    top: 55%;
+    font-weight: 300;
+    max-width: 60%;
+    font-size: 2.5em;
+    line-height: 1.2;
+  }
+  &-post,
+  &-img {
+    padding-left: 14px;
+    width: 100%;
+    text-transform: uppercase;
+    position: absolute;
+    color: white;
+  }
+}
+
+.carousel-text-entry {
+  color: #3c3c3c;
+  border-top:1px solid #000000;
+  margin-top: 6px;
+  font-size: .9em;
+  line-height: 1.7;
+  padding-top: 11px;
+}
+
+
+//Add img-responsive class to Gallery
+.gallery-icon {
+  a {
+    img {
+      @extend .img-responsive;
+    }
+  }
+}
+
