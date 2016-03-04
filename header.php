@@ -20,7 +20,11 @@
     <meta name="MobileOptimized" content="320">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-    <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/images/apple-icon-touch.png">
+    <link rel="apple-touch-icon" href="<?php echo get_template_directory_uri(); ?>/images/touch-icon-iphone.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="<?php echo get_template_directory_uri(); ?>/images/touch-icon-ipad.png">
+    <link rel="apple-touch-icon" sizes="120x120"  href="<?php echo get_template_directory_uri(); ?>/images/touch-icon-iphone-retina.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="<?php echo get_template_directory_uri(); ?>/images/touch-icon-ipad-retina.png">
+
     <link rel="icon" href="<?php echo get_template_directory_uri(); ?>/favicon.ico">
 
     <!--[if IE]>
@@ -52,9 +56,7 @@
                 <?php // Interior Header Image ?>
                 <ul class="list-inline logo-list">
                     <li>
-                        <a href="<?php echo esc_url(home_url('/')); ?>" id="banner" style="display: block">
-                            <div class="spacer"></div>
-                        </a>
+                        <a class="block banner" href="<?php echo esc_url(home_url('/')); ?>" id="banner"></a>
                     </li>
 
                     <li>
@@ -88,7 +90,9 @@
         <?php test_main_nav(); ?>
 
     </nav>
-    <div class="row">
+    <!--Add top Hero-->
+    <?php if (is_front_page()) { ?>
+    <div class="row hero">
         <div class="col-xs-12">
             <h5 class="featured-products-heading text-uppercase semi-bold">featured products</h5>
         </div>
@@ -192,7 +196,7 @@
 
     </div>
     <hr>
-
+    <?php }?>
     <div id="content">
 
         <div id="inner-content" class="row">

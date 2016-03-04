@@ -1,7 +1,4 @@
-Responsive Design Scaffolding for WordPress
-=======
-
-Responsive Wordpress Base Theme based off bones, Foundation, Bootstrap (+ more)
+Responsive Wordpress Base Theme is made fof SharpMinds, based off Responsive Design Scaffolding for WordPress (bones, Foundation, Bootstrap (+ more))
 
 scaffolding is designed to make the life of developers easier. It is
 built using HTML5 & has a strong semantic foundation. It is developed

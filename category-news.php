@@ -7,7 +7,6 @@
 
 get_header(); ?>
 		<?php if ( have_posts() ) : ?>
-	<h1>category products</h1>
 			<header class="page-header">
 				<h4 class="archive-title products">
 					<?php

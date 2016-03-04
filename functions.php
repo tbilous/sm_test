@@ -217,7 +217,7 @@ register_default_headers(array(
 function test_custom_headers_callback()
 {
     ?>
-    <style type="text/css">#banner {
+    <style type="text/css">.banner {
         background-image: url(<?php header_image(); ?>);
         /*-ms-behavior: url(
 

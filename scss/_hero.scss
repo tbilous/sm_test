@@ -3,6 +3,7 @@
 .featured-products-heading {
   color: #555656;
 }
+
 .carousel-top {
   &__left {
     border: 1px solid #d4d4d4;
@@ -103,9 +104,11 @@
   &-post {
     top: 55%;
     font-weight: 300;
-    max-width: 60%;
     font-size: 2.5em;
     line-height: 1.2;
+    @media all and (min-width: 880px) {
+      max-width: 60%;
+    }
   }
   &-post,
   &-img {
@@ -115,17 +118,32 @@
     position: absolute;
     color: white;
   }
+  @media all and (max-width: 800px) and (min-width: 400px) {
+    &-post {
+      font-size: 2em;
+    }
+    &-img {
+      font-size: 1.5em;
+    }
+  }
+  @media all and (max-width: 400px) {
+    &-post {
+      font-size: 1.5em;
+    }
+    &-img {
+      font-size: 1em;
+    }
+  }
 }
 
 .carousel-text-entry {
   color: #3c3c3c;
-  border-top:1px solid #000000;
+  border-top: 1px solid #000000;
   margin-top: 6px;
   font-size: .9em;
   line-height: 1.7;
   padding-top: 11px;
 }
-
 
 //Add img-responsive class to Gallery
 .gallery-icon {
@@ -136,3 +154,19 @@
   }
 }
 
+//Bottom hero
+.clients {
+  &-heading {
+    color: #343434;
+    .hr {
+      width: 100%;
+      height: 1px;
+      top: 50%;
+    }
+    &-text {
+      background: white;
+      padding: 0 5px 0 5px;
+      margin-left: 3%;
+    }
+  }
+}

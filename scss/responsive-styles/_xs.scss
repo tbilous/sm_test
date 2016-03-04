@@ -58,8 +58,7 @@ HEADER SYTLES
 #logo {
 }
 
-#banner {
-
+#banner, #bannerBottom  {
   background-position: top center;
   background-repeat: no-repeat;
   background-size: contain;
@@ -69,6 +68,12 @@ HEADER SYTLES
   width: 7.2rem;
   .spacer {
     padding-top: 77%; // change this value based on the aspect ratio of your header image
+  }
+  &.banner {
+    &__bottom {
+      height: 3.5rem;
+      width: 5.2rem;
+    }
   }
 }
 
@@ -82,7 +87,7 @@ NAVIGATION STYLES
 POSTS & CONTENT STYLES
 *********************/
 #content {
-  margin: 2em 0;
+  margin: 2em 0 3em;
 
   #inner-content {
 
@@ -591,7 +596,7 @@ FOOTER STYLES
   clear: both;
   //background-color:#111;
   //color:#999;
-  padding: 1em 0;
+  //padding: 1em 0;
 }
 
 ul.footer-menu {
